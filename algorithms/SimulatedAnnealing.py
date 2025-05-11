@@ -10,7 +10,7 @@ def simulatedAnnealing(start, goal):
 
     current = start
     current_heuristic = beliefState(current, goal)  # Sử dụng môi trường niềm tin từ hàm belief_state
-    path = [current]
+    path = []
 
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Lên, xuống, trái, phải
     temp = initial_temp

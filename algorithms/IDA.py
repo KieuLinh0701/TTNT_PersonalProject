@@ -1,4 +1,3 @@
-# Thuật toán IDA*
 def idaStar(start, goal):
     def heuristic(state):
         # Hàm heuristic tính khoảng cách Manhattan
@@ -36,7 +35,8 @@ def idaStar(start, goal):
                     newState[zeroX][zeroY],
                 )
 
-                if newState not in path:  # Tránh lặp trạng thái
+                # Tránh lặp trạng thái, không thêm startState vào path
+                if newState not in path:  # Không thêm trạng thái hiện tại vào path
                     result, solution = dfs_limited(newState, g + 1, threshold, path + [newState])
                     if solution is not None:
                         return result, solution
@@ -47,7 +47,7 @@ def idaStar(start, goal):
     # Khởi tạo ngưỡng bằng giá trị heuristic của trạng thái bắt đầu
     threshold = heuristic(start)
     while True:
-        result, solution = dfs_limited(start, 0, threshold, [start])
+        result, solution = dfs_limited(start, 0, threshold, [])  # Không thêm start vào path ngay từ đầu
         if solution is not None:
             return solution
         if result == float('inf'):

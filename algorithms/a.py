@@ -79,3 +79,18 @@ def applyAction(state, action):
         newState[zeroX][zeroY], newState[zeroX][zeroY + 1] = newState[zeroX][zeroY + 1], newState[zeroX][zeroY]
 
     return newState
+
+# Test the function and print the solution path
+start_state = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]  # Trạng thái bắt đầu
+goal_state = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]  # Trạng thái mục tiêu
+
+solution_path = AndOrSearch(start_state, goal_state)
+
+if solution_path:
+    print(f"Tìm thấy giải pháp với {len(solution_path) - 1} bước:")
+    for idx, state in enumerate(solution_path):
+        print(f"\nBước {idx}:")
+        for row in state:
+            print(row)
+else:
+    print("Không tìm thấy giải pháp.")

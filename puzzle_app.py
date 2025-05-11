@@ -22,9 +22,11 @@ from algorithms.SimulatedAnnealing import simulatedAnnealing
 from algorithms.BeamSearch import beamSearch
 from algorithms.GeneticAlgorithm import geneticAlgorithm
 from algorithms.AndOrSearch import AndOrSearch
-from algorithms.Component import component
+from algorithms.SearchWithPartialObservation import searchWithPartialObservation
 from algorithms.GenerateAndTest import generate_and_test
-from algorithms.BackTracking import solve8PuzzleBacktracking
+from algorithms.BackTracking import backtracking
+from algorithms.BacktrackingWithForwardChecking import backtrackingWithForwardChecking
+from algorithms.QLearning import qLearning
 
 class PuzzleApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -76,10 +78,6 @@ class PuzzleApp(QtWidgets.QMainWindow):
         self.updateLabels(self.target_labels, self.goalState)
         self.updateLabels(self.grid_labels, self.startState)
 
-        # Gọi hàm get_rows đúng cách để lấy các hàng 1 và 2 từ startState và goalState
-        self.startState_sorted = self.get_rows(self.startState, [1, 2])  # Lấy hàng 1 và 2 từ startState
-        self.goalState_sorted = self.get_rows(self.goalState, [1, 2])  # Lấy hàng 1 và 2 từ goalState
-
         # Tạo danh sách nút và gán hành động
         self.buttons = {
             self.btnBFS: bfs,
@@ -96,9 +94,11 @@ class PuzzleApp(QtWidgets.QMainWindow):
             self.btnBeam:beamSearch,
             self.btnGenetic:geneticAlgorithm, 
             self.btnAndOr:AndOrSearch,
-            self.btnComponent:component,
+            self.btnComponent:searchWithPartialObservation,
             self.btnGenerateTest:generate_and_test,
-            self.btnBackTracking:solve8PuzzleBacktracking
+            self.btnBackTracking:backtracking,
+            self.btnBacktrackingWithForwardChecking: backtrackingWithForwardChecking,
+            self.btnQLearning: qLearning
         }
 
         for btn, algo in self.buttons.items():
@@ -106,11 +106,6 @@ class PuzzleApp(QtWidgets.QMainWindow):
 
         # Kết nối nút btnProcess
         self.btnProcess.clicked.connect(self.showSteps)
-
-    def get_rows(self, state, row_indices):
-        # Lấy các hàng của state theo chỉ số hàng cho trước
-        rows = [state[idx] for idx in row_indices]
-        return rows
 
     def updateLabels(self, labels, state, rows=None):
         if rows is None:
@@ -127,8 +122,6 @@ class PuzzleApp(QtWidgets.QMainWindow):
                 val = state[index][j]  # Sử dụng `index` thay vì `i` để lấy đúng dữ liệu từ `state`
                 if labels[i][j]:  # Nếu QLabel tồn tại
                     labels[i][j].setText("" if val == 0 else str(val))
-
-
 
     def reset(self, selectedButton):
         # Reset giao diện về trạng thái ban đầu.\
@@ -193,13 +186,13 @@ class PuzzleApp(QtWidgets.QMainWindow):
             # Xác định hướng di chuyển
             direction = None
             if zero_pos_curr[0] < zero_pos_prev[0]:  # Di chuyển lên
-                direction = "Up"
-            elif zero_pos_curr[0] > zero_pos_prev[0]:  # Di chuyển xuống
                 direction = "Down"
+            elif zero_pos_curr[0] > zero_pos_prev[0]:  # Di chuyển xuống
+                direction = "Up"
             elif zero_pos_curr[1] < zero_pos_prev[1]:  # Di chuyển trái
-                direction = "Left"
-            elif zero_pos_curr[1] > zero_pos_prev[1]:  # Di chuyển phải
                 direction = "Right"
+            elif zero_pos_curr[1] > zero_pos_prev[1]:  # Di chuyển phải
+                direction = "Left"
 
             # Ghi lại số và hướng di chuyển
             if direction:
@@ -275,10 +268,7 @@ class PuzzleApp(QtWidgets.QMainWindow):
     """)
 
         if isSolvable(self.startState):
-            if self.currentAlgorithm == component:
-                solution = algorithm(self.startState_sorted, self.goalState_sorted)
-            else:
-                solution = algorithm(self.startState, self.goalState)
+            solution = algorithm(self.startState, self.goalState)
 
             if solution:
                 self.solutionSteps = [self.startState] + list(solution)  # Lưu tất cả trạng thái
@@ -286,14 +276,7 @@ class PuzzleApp(QtWidgets.QMainWindow):
                 start_time = time.time()  # Bắt đầu tính thời gian
 
                 for step in self.solutionSteps:
-                    # Kiểm tra xem thuật toán có phải là component hay không
-                    if self.currentAlgorithm == component:
-                        # Nếu là component, chỉ cập nhật các nhãn của startState_sorted
-                        self.updateLabels(self.grid_labels, self.startState_sorted, rows=[1, 2])
-
-                    else:
-                        # Cập nhật toàn bộ grid_labels nếu không phải component
-                        self.updateLabels(self.grid_labels, step)
+                    self.updateLabels(self.grid_labels, step)
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.3)
 
