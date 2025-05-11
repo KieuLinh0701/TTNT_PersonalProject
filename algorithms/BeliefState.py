@@ -1,28 +1,35 @@
 def beliefState(state, goal):
-    """
-    Hàm tính toán môi trường niềm tin cho trạng thái hiện tại.
-    Ở đây, môi trường niềm tin là khoảng cách Manhattan.
-    """
+    # Hàm tính toán khoảng cách Manhattan giữa trạng thái hiện tại và đích
     def heuristic(state, goal):
-        """
-        Hàm heuristic tính khoảng cách Manhattan giữa trạng thái hiện tại và mục tiêu.
-        """
-        # Làm phẳng goal
-        flat_goal = [num for row in goal for num in row]  # Flatten the goal
+        flatGoal = [] # Làm phẳng trạng thái đích thành một danh sách 1 chiều
+        for row in goal:
+            for num in row:
+                flatGoal.append(num)  
 
-        # Kiểm tra giá trị hợp lệ
+        # Kiểm tra xem các giá trị trong state có xuất hiện trong goal không
         for row in state:
             for val in row:
-                if val != 0 and val not in flat_goal:
-                    raise ValueError(f"Giá trị {val} không tồn tại trong trạng thái mục tiêu (goal).")
+                if val != 0 and val not in flatGoal:  # Ô trống (0) không cần kiểm tra
+                    raise ValueError(f"Giá trị {val} không tồn tại trong trạng thái đích (goal).")
 
+        # Tính toán tổng khoảng cách Manhattan
         distance = 0
-        for i, row in enumerate(state):
-            for j, val in enumerate(row):
-                if val != 0:  # Không tính khoảng cách cho ô trống (0)
-                    # Tìm vị trí mục tiêu của giá trị val
-                    gi, gj = divmod(flat_goal.index(val), len(state))  # Vị trí của val trong goal
+        for i in range(len(state)):  
+            for j in range(len(state[i])):  
+                val = state[i][j]  # Giá trị của ô tại vị trí (i, j)
+                
+                if val != 0:  # Không tính khoảng cách cho ô giá trị 0
+                    # Tìm vị trí đích của giá trị val trong goal
+                    for gi in range(len(goal)): 
+                        for gj in range(len(goal[gi])):  
+                            if goal[gi][gj] == val:  
+                                gi, gj = gi, gj  
+                                break
+                    # Cộng khoảng cách Manhattan vào tổng
                     distance += abs(i - gi) + abs(j - gj)
+
+        # Trả về tổng khoảng cách Manhattan
         return distance
 
+    # Gọi hàm heuristic để tính toán và trả về kết quả
     return heuristic(state, goal)

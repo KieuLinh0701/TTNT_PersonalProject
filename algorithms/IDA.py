@@ -1,55 +1,74 @@
-def idaStar(start, goal):
-    def heuristic(state):
-        # Hàm heuristic tính khoảng cách Manhattan
-        return sum(
-            abs(i - gi) + abs(j - gj)
-            for i, row in enumerate(state)
-            for j, val in enumerate(row)
-            if val != 0
-            for gi, grow in enumerate(goal)
-            for gj, gval in enumerate(grow)
-            if gval == val
-        )
+from algorithms.BeliefState import beliefState
 
-    def dfs_limited(state, g, threshold, path):
-        f = g + heuristic(state)  # Tính f(n) = g(n) + h(n)
+def idaStar(start, goal):
+
+    def heuristic(state):
+        return beliefState(state, goal)  # Gọi hàm beliefState để tính toán giá trị heuristic
+
+    # Hàm tìm kiếm sâu giới hạn theo ngưỡng threshold
+    def dfsLimited(state, g, threshold, path):
+
+        # Tính toán giá trị f(n) = g(n) + h(n)
+        f = g + heuristic(state)
+
+        # Kiểm tra xem giá trị f có vượt quá ngưỡng đúng thì trả về giá trị f
         if f > threshold:
             return f, None
 
+        # Kiểm tra xem có phải trạng thái đích chưa, đúng thì trả về đường đi
         if state == goal:
             return f, path
 
-        min_threshold = float('inf')
-        zeroX, zeroY = next(
-            (i, j) for i in range(3) for j in range(3) if state[i][j] == 0
-        )
+        # Khởi tạo ngưỡng tối thiểu mới
+        minThreshold = float('inf')
 
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        # Tìm vị trí của ô giá trị 0
+        zeroX, zeroY = next((i, j) for i in range(3) for j in range(3) if state[i][j] == 0)
+
+        # Hướng di chuyển của ô trống
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  
+
+        # Duyệt theo các hướng di chuyển có thể có của ô giá trị 0
         for dx, dy in directions:
-            newX, newY = zeroX + dx, zeroY + dy
+            newX = zeroX + dx
+            newY = zeroY + dy
 
+            # Kiểm tra xem ô mới có nằm trong ma trận không
             if 0 <= newX < 3 and 0 <= newY < 3:
+                # Tạo trạng thái mới
                 newState = [row[:] for row in state]
-                newState[zeroX][zeroY], newState[newX][newY] = (
-                    newState[newX][newY],
-                    newState[zeroX][zeroY],
-                )
+                # Hoán đổi vị trí ô trống với ô ở tọa độ mới
+                newState[zeroX][zeroY], newState[newX][newY] = newState[newX][newY], newState[zeroX][zeroY]
 
-                # Tránh lặp trạng thái, không thêm startState vào path
-                if newState not in path:  # Không thêm trạng thái hiện tại vào path
-                    result, solution = dfs_limited(newState, g + 1, threshold, path + [newState])
+                # Kiểm tra trạng thái mới có lặp lại hay không
+                if newState not in path:  # Nếu chưa đi qua trạng thái này
+                    # Gọi đệ quy với trạng thái mới
+                    result, solution = dfsLimited(newState, g + 1, threshold, path + [newState])
+
+                    # Nếu tìm thấy giải pháp, trả về ngay
                     if solution is not None:
                         return result, solution
-                    min_threshold = min(min_threshold, result)
 
-        return min_threshold, None
+                    # Cập nhật ngưỡng tối thiểu
+                    minThreshold = min(minThreshold, result)
 
-    # Khởi tạo ngưỡng bằng giá trị heuristic của trạng thái bắt đầu
+        # Trả về ngưỡng tối thiểu mới nếu không tìm thấy giải pháp
+        return minThreshold, None
+
+    # Bắt đầu thuật toán IDA* với ngưỡng bằng heuristic của trạng thái ban đầu
     threshold = heuristic(start)
+
     while True:
-        result, solution = dfs_limited(start, 0, threshold, [])  # Không thêm start vào path ngay từ đầu
+        # Gọi hàm tìm kiếm sâu giới hạn
+        result, solution = dfsLimited(start, 0, threshold, [])
+
+        # Nếu tìm thấy giải pháp, trả về
         if solution is not None:
             return solution
+
+        # Nếu không tìm thấy và ngưỡng mới là vô cực, dừng lại
         if result == float('inf'):
-            return None  # Không tìm thấy lời giải
+            return None
+
+        # Cập nhật ngưỡng cho vòng lặp tiếp theo
         threshold = result

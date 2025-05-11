@@ -4,18 +4,18 @@ from algorithms.BeliefState import beliefState
 
 def simulatedAnnealing(start, goal):
     # Định nghĩa các tham số cố định bên trong hàm
-    initial_temp = 10000   # Nhiệt độ ban đầu
-    cooling_rate = 0.99   # Hệ số làm nguội
-    min_temp = 1          # Ngưỡng dừng
+    initialTemp = 10000   # Nhiệt độ ban đầu
+    coolingRate = 0.99   # Hệ số làm nguội
+    minTemp = 1          # Ngưỡng dừng
 
     current = start
-    current_heuristic = beliefState(current, goal)  # Sử dụng môi trường niềm tin từ hàm belief_state
+    currentHeuristic = beliefState(current, goal)  # Sử dụng môi trường niềm tin từ hàm belief_state
     path = []
 
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Lên, xuống, trái, phải
-    temp = initial_temp
+    temp = initialTemp
 
-    while current != goal and temp > min_temp:
+    while current != goal and temp > minTemp:
         zeroX, zeroY = next((i, j) for i in range(3) for j in range(3) if current[i][j] == 0)
 
         # Danh sách các trạng thái lân cận
@@ -31,18 +31,18 @@ def simulatedAnnealing(start, goal):
             break
 
         # Chọn ngẫu nhiên một trạng thái lân cận
-        next_state, next_heuristic = random.choice(neighbors)
+        nextState, nextHeuristic = random.choice(neighbors)
 
         # Tính chênh lệch heuristic
-        delta = next_heuristic - current_heuristic
+        delta = nextHeuristic - currentHeuristic
 
         # Quyết định chấp nhận trạng thái mới hay không
         if delta < 0 or random.random() < math.exp(-delta / temp):
-            current = next_state
-            current_heuristic = next_heuristic
+            current = nextState
+            currentHeuristic = nextHeuristic
             path.append(current)
 
         # Giảm nhiệt độ
-        temp *= cooling_rate
+        temp *= coolingRate
 
     return path if current == goal else None
