@@ -40,7 +40,7 @@
 #### 2.1.1 Thành phần chính của bài toán tìm kiếm
     -	Trạng thái khởi đầu (Start State): Trạng thái ban đầu từ đó bắt đầu tìm kiếm.
     -	Trạng thái đích (Goal State): Trạng thái cần đạt được để giải bài toán.
-    -	Không gian trạng thái (State Space): Tập hợp tất cả các trạng thái có thể đạt được từ trạng thái khởi đầu.
+    -	Không gian trạng thái (State Space): Tập hợp tất cả các trạng thái có thể có của bài toán.
     -	Chi phí (Cost): Chi phí của mỗi bước di chuyển. (Có thể là cố định (BFS, DFS, IDS) hoặc thay đổi (UCS)).
     -	Cấu trúc dữ liệu: Dùng để quản lý các trạng thái cần mở rộng:
         o	Hàng đợi (BFS).
@@ -60,3 +60,25 @@
 | DFS | Không | Không | $O(b^m)$ | $O(bm)$ | Nhanh, nhưng dễ bị lặp hoặc lạc |
 | UCS | Có | Có | $O(b^d)$ | $O(b^d)$ | Tốt khi chi phí bước không đều |
 | IDS | Có | Có | $O(b^d)$ | $O(bd)$ | 	Hiệu quả hơn BFS về bộ nhớ |
+
+### 2.2. Các thuật toán Tìm kiếm có thông tin
+#### 2.2.1 Thành phần chính của bài toán tìm kiếm
+    -	Trạng thái khởi đầu (Start State): Trạng thái ban đầu từ đó bắt đầu tìm kiếm.
+    -	Trạng thái đích (Goal State): Trạng thái cần đạt được để giải bài toán.
+    -	Không gian trạng thái (State Space): Tập hợp tất cả các trạng thái có thể có của bài toán.
+    -	Chi phí (Cost): Chi phí của mỗi bước di chuyển. 
+    -	Hàm heuristic: Hàm ước lượng chi phí còn lại để đạt được trạng thái đích.
+    -	Đường đi (Path): Một chuỗi các trạng thái từ trạng thái khởi đầu đến trạng thái đích.
+#### 2.2.2. Hình ảnh gif của từng thuật toán khi áp dụng lên trò chơi 
+
+| ![GIF 1](gif/greedy.gif) | ![GIF 2](gif/aStar.gif) | ![GIF 3](gif/ida.gif)|
+|----------------------------|----------------------------|----------------------------|
+| **Thuật toán Greed Search**                  | **Thuật toán A***                  | **Thuật toán IDA***                  | 
+#### 2.2.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
+
+| Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
+|-------|-------|-------|-------|-------|-------|
+| Greedy Search | Không | Không | $O(b^m)$ | $O(b^m)$ | Chạy nhanh với heuristic tốt nhưng không đảm bảo tìm lời giải tối ưu |
+| A* | Có | Có | $O(b^d)$ | $O(b^d)$ | Tìm lời giải tối ưu nhưng tiêu tốn nhiều bộ nhớ |
+| IDA* | Có | Có | $O(b^d)$k | $O(d)$ | Tối ưu về không gian nhưng thời gian có thể lớn hơn A* |
+
