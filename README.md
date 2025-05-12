@@ -56,10 +56,7 @@
 
 | Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
 |-------|-------|-------|-------|-------|-------|
-| BFS | Có | Có | $O(b^d)$
- | $O(b^d)$
- | Bộ nhớ tốn kém, nhưng đảm bảo. |
-| DFS | Hàng 2 | Hàng 2 | Hàng 2 | Hàng 2 | Hàng 2 |
-| UCS | Hàng 3 | Hàng 3 | Hàng 3 | Hàng 3 | Hàng 3 |
-| Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 |
-| IDS | Hàng 5 | Hàng 5 | Hàng 5 | Hàng 5 | Hàng 5 |
+| BFS | Có | Có | $O(b^d)$ | $O(b^d)$ | Bộ nhớ tốn kém, nhưng đảm bảo |
+| DFS | Không | Không | $O(b^m)$ | $O(bm)$ | Nhanh, nhưng dễ bị lặp hoặc lạc |
+| UCS | Có | Có | $O(b^d)$ | $O(b^d)$ | Tốt khi chi phí bước không đều |
+| IDS | Có | Có | $O(b^d)$ | $O(bd)$ | 	Hiệu quả hơn BFS về bộ nhớ |
