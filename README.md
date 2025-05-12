@@ -73,8 +73,29 @@
 
 | ![GIF 1](gif/greedy.gif) | ![GIF 2](gif/aStar.gif) | ![GIF 3](gif/ida.gif)|
 |----------------------------|----------------------------|----------------------------|
-| **Thuật toán Greed Search**                  | **Thuật toán A***                  | **Thuật toán IDA***                  | 
+| **Thuật toán Greedy Search**                  | **Thuật toán A***                  | **Thuật toán IDA***                  | 
 #### 2.2.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
+
+| Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
+|-------|-------|-------|-------|-------|-------|
+| Greedy Search | Không | Không | $O(b^m)$ | $O(b^m)$ | Chạy nhanh với heuristic tốt nhưng không đảm bảo tìm lời giải tối ưu |
+| A* | Có | Có | $O(b^d)$ | $O(b^d)$ | Tìm lời giải tối ưu nhưng tiêu tốn nhiều bộ nhớ |
+| IDA* | Có | Có | $k \cdot O(b^d)$ | $O(d)$ | Tối ưu về không gian nhưng thời gian có thể lớn hơn A* |
+
+### 2.3. Các thuật toán Tìm kiếm cục bộ
+#### 2.3.1 Thành phần chính của bài toán tìm kiếm
+    -	Trạng thái khởi đầu (Start State): Trạng thái ban đầu từ đó bắt đầu tìm kiếm.
+    -	Trạng thái đích (Goal State): Trạng thái cần đạt được để giải bài toán.
+    -	Không gian trạng thái (State Space): Tập hợp tất cả các trạng thái có thể có của bài toán.
+    -	Chi phí (Cost): Chi phí của mỗi bước di chuyển. 
+    -	Hàm heuristic: Hàm đánh giá sự "tốt" của trạng thái, giúp chọn lựa bước đi tiếp theo.
+    -	Đường đi (Path): Chuỗi các trạng thái từ trạng thái khởi đầu đến trạng thái đích (Không áp dụng cho thuật toán Genetic Algorithm).
+#### 2.3.2. Hình ảnh gif của từng thuật toán khi áp dụng lên trò chơi 
+
+| ![GIF 1](gif/simple_hill.gif) | ![GIF 2](gif/steepest-ascent_hill.gif) | ![GIF 3](gif/stochastic_hill.gif)| ![GIF 4](gif/simulated_annealing.gif)| ![GIF 5](gif/genetic.gif)|
+|----------------------------|----------------------------|----------------------------|----------------------------|----------------------------|
+| **Thuật toán Simple Hill Climbing**                  | **Thuật toán Steepest-Ascent Hill Climbing**                  | **Thuật toán Stochastic Hill Climbing**                  | **Thuật toán Simulated Annealing**                  | **Thuật toán Genetic Algorithm**                  | 
+#### 2.3.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
 
 | Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
 |-------|-------|-------|-------|-------|-------|
