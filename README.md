@@ -52,3 +52,12 @@
 | ![GIF 1](gif/bfs.gif) | ![GIF 2](gif/dfs.gif) | ![GIF 3](gif/ucs.gif) | ![GIF 4](gif/ids.gif) |
 |----------------------------|----------------------------|----------------------------|----------------------------|
 | **Thuật toán BFS**                  | **Thuật toán DFS**                  | **Thuật toán UCS**                  | **Thuật toán IDS**                  |
+#### 2.1.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
+
+| Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
+|-------|-------|-------|-------|-------|-------|
+| BFS | Có | Có | $$ O(b^d) $$ | $$ O(b^d) $$ | Bộ nhớ tốn kém, nhưng đảm bảo. |
+| DFS | Hàng 2 | Hàng 2 | Hàng 2 | Hàng 2 | Hàng 2 |
+| UCS | Hàng 3 | Hàng 3 | Hàng 3 | Hàng 3 | Hàng 3 |
+| Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 |
+| IDS | Hàng 5 | Hàng 5 | Hàng 5 | Hàng 5 | Hàng 5 |
