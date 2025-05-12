@@ -56,7 +56,9 @@
 
 | Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
 |-------|-------|-------|-------|-------|-------|
-| BFS | Có | Có | $$ O(b^d) $$ | $$ O(b^d) $$ | Bộ nhớ tốn kém, nhưng đảm bảo. |
+| BFS | Có | Có | $O(b^d)$
+ | $O(b^d)$
+ | Bộ nhớ tốn kém, nhưng đảm bảo. |
 | DFS | Hàng 2 | Hàng 2 | Hàng 2 | Hàng 2 | Hàng 2 |
 | UCS | Hàng 3 | Hàng 3 | Hàng 3 | Hàng 3 | Hàng 3 |
 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 | Hàng 4 |
