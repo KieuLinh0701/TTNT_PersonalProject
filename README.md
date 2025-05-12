@@ -99,7 +99,9 @@
 
 | Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
 |-------|-------|-------|-------|-------|-------|
-| Greedy Search | Không | Không | $O(b^m)$ | $O(b^m)$ | Chạy nhanh với heuristic tốt nhưng không đảm bảo tìm lời giải tối ưu |
-| A* | Có | Có | $O(b^d)$ | $O(b^d)$ | Tìm lời giải tối ưu nhưng tiêu tốn nhiều bộ nhớ |
-| IDA* | Có | Có | $k \cdot O(b^d)$ | $O(d)$ | Tối ưu về không gian nhưng thời gian có thể lớn hơn A* |
+| Simple Hill Climbing | Không (mắc kẹt tại cực trị cục bộ) | Không | $O(bd)$ | $O(1)$ | Dễ triển khai nhưng dễ bị mắc kẹt ở cực trị cục bộ |
+| Steepest-Ascent Hill Climbing | Không (mắc kẹt tại cực trị cục bộ) | Không | $O(bd)$ | $O(1)$ | Hiệu quả hơn Simple Hill Climbing, nhưng vẫn dễ bị mắc kẹt |
+| Stochastic Hill Climbing | Có thể (nhờ tính ngẫu nhiên) | Không | $O(kd)$ | $O(1)$ | Có thể thoát khỏi cực trị cục bộ nhưng không đảm bảo tìm được tối ưu toàn cục |
+| Simulated Annealing | Có (với lịch giảm nhiệt phù hợp) | Có (với lịch giảm nhiệt chậm) | $O(bd)$ | $O(1)$ | Hiệu quả trong việc tránh cực trị cục bộ; yêu cầu điều chỉnh lịch giảm nhiệt |
+| Genetic Algorithm | Có (với quần thể và số thế hệ đủ lớn) | Có (với quần thể lớn) | $O(pgf)$ | $O(p)$ | Tìm kiếm mạnh mẽ, không dễ mắc kẹt, nhưng đòi hỏi nhiều tài nguyên và thời gian |
 
