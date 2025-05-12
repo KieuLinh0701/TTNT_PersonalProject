@@ -1,58 +1,64 @@
-def backtrackingWithForwardChecking(startState, goalState):
-    """
-    Giải bài toán 8-puzzle bằng thuật toán quay lui với kiểm tra trước (Backtracking with Forward Checking).
-    """
-
-    def findEmptyTilePosition(state):
+def backtrackingWithForwardChecking(start, goal):
+    # Tìm vị trí của ô giá trị 0
+    def findEmptyTile(state):
         for row in range(3):
             for col in range(3):
                 if state[row][col] == 0:
                     return row, col
         return None
 
-    def isGoalState(state):
-        return state == goalState
-
     def getNextPossibleStates(state):
         nextPossibleStates = []
-        emptyRow, emptyCol = findEmptyTilePosition(state)
-        if emptyRow is None:
+
+        zeroX, zeroY = findEmptyTile(state)
+
+        # Nếu không tìm thấy ô trống, không thể sinh trạng thái
+        if zeroX is None:  
             return []
-        possibleMoves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        for deltaRow, deltaCol in possibleMoves:
-            newRow, newCol = emptyRow + deltaRow, emptyCol + deltaCol
-            if 0 <= newRow < 3 and 0 <= newCol < 3:
+        
+        # Hướng di chuyển của ô trống
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        # Duyệt theo các hướng di chuyển có thể có của ô giá trị 0
+        for dx, dy in directions:
+            newX = zeroX + dx
+            newY = zeroY + dy
+
+            # Kiểm tra xem ô mới có nằm trong ma trận không
+            if 0 <= newX < 3 and 0 <= newY < 3:
+                # Tạo trạng thái mới
                 newState = [list(row) for row in state]
-                newState[emptyRow][emptyCol], newState[newRow][newCol] = \
-                    newState[newRow][newCol], newState[emptyRow][emptyCol]
+                # Hoán đổi vị trí ô trống với ô ở tọa độ mới
+                newState[zeroX][zeroY], newState[newX][newY] = newState[newX][newY], newState[zeroX][zeroY]
                 nextPossibleStates.append(newState)
         return nextPossibleStates
 
-    def isConsistent(state, goalState):
-        """
-        Kiểm tra tính nhất quán của trạng thái:
-        Một trạng thái nhất quán nếu số lượng các mảnh không đúng vị trí không vượt quá một ngưỡng nhất định.
-        """
-        misplacedTiles = sum(
-            1 for i in range(3) for j in range(3) if state[i][j] != 0 and state[i][j] != goalState[i][j]
-        )
-        return misplacedTiles <= 2  # Ngưỡng kiểm tra tùy chỉnh
+    # Kiểm tra tính nhất quán của trạng thái
+    def isConsistent(state, goal):
+        misplacedTiles = sum(1 for i in range(3) for j in range(3) if state[i][j] != 0 and state[i][j] != goal[i][j])
+        return misplacedTiles <= 2  
 
-    def solve8PuzzleUtil(currentState, path, visited):
-        if isGoalState(currentState):
-            return path  # Không thêm trạng thái hiện tại vào path
-        nextPossibleStates = getNextPossibleStates(currentState)
+    def solve8PuzzleUtil(current, path, visited):
+        # Kiểm tra xem có phải trạng thái đích chưa, đúng thì trả về đường đi
+        if current == goal:
+            return path
+
+        nextPossibleStates = getNextPossibleStates(current)
+        
         for nextState in nextPossibleStates:
+        
+            # Chuyển trạng thái mới thành dạng tuple để lưu trữ
             stateTuple = tuple(tuple(row) for row in nextState)
-            if stateTuple not in visited and isConsistent(nextState, goalState):  # Kiểm tra trước
-                visited.add(stateTuple)
-                result = solve8PuzzleUtil(nextState, path + [nextState], visited)  # Chỉ thêm trạng thái tiếp theo
-                if result:
+
+            if stateTuple not in visited and isConsistent(nextState, goal):  
+                visited.add(stateTuple)  # Đánh dấu trạng thái là đã duyệt
+                result = solve8PuzzleUtil(nextState, path + [nextState], visited)  
+                if result:  # Nếu tìm được lời giải
                     return result
-                visited.remove(stateTuple)
-        return None
+                visited.remove(stateTuple)  # Nếu không thành công, bỏ đánh dấu trạng thái
+        return None  # Nếu không có lời giải từ trạng thái hiện tại, quay lui
     
-    # Bắt đầu tìm kiếm
-    visited = set()
-    visited.add(tuple(tuple(row) for row in startState))
-    return solve8PuzzleUtil(startState, [], visited)
+    # Bắt đầu tìm kiếm từ trạng thái ban đầu
+    visited = set()  # Tập hợp các trạng thái đã duyệt
+    visited.add(tuple(tuple(row) for row in start))  # Đánh dấu trạng thái ban đầu là đã duyệt
+    return solve8PuzzleUtil(start, [], visited) # Gọi hàm hỗ trợ để bắt đầu tìm kiếm

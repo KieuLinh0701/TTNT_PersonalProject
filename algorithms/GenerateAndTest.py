@@ -1,48 +1,55 @@
-""" 
-THUẬT TOÁN TÌM KIẾM BẰNG KIỂM THỬ
-(Generate and Test)
-
-Ý tưởng: 
-❑ Sinh ra một khả năng (candidate) của lời giải
-❑ Kiểm tra xem khả năng này có thực sự là một lời giải
-"""
-
 import random
 
-def is_solvable(board):
-    """Kiểm tra xem trạng thái ban đầu của trò chơi có giải được không."""
-    inversions = 0
-    flat_list = [num for row in board for num in row if num != 0]
-    for i in range(len(flat_list)):
-        for j in range(i + 1, len(flat_list)):
-            if flat_list[i] > flat_list[j]:
-                inversions += 1
-    return inversions % 2 == 0
+# Hàm tạo trạng thái lân cận ngẫu nhiên
+def getRandomNeighbor(board):
+    # Hướng di chuyển của ô trống
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  
+    
+    # Tìm vị trí của ô giá trị 0
+    zeroX, zeroY = next((i, j) for i in range(3) for j in range(3) if board[i][j] == 0)
+    
+    # Tìm các ô có thể di chuyển đến
+    possibleMoves = []
+    
+    # Duyệt theo các hướng di chuyển có thể có của ô giá trị 0
+    for dx, dy in directions:
+        newX = zeroX + dx
+        newY = zeroY + dy
+        
+        # Kiểm tra xem ô mới có nằm trong ma trận không
+        if 0 <= newX < 3 and 0 <= newY < 3:
+            possibleMoves.append((newX, newY))
+    
+    # Nếu không có vị trí nào hợp lệ, trả về None
+    if not possibleMoves:
+        return None
 
-def get_random_neighbor(board):
-    """Sinh ngẫu nhiên một trạng thái lân cận."""
-    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    empty_pos = [(i, j) for i in range(3) for j in range(3) if board[i][j] == 0][0]
-    x, y = empty_pos
-    possible_moves = []
-    for dx, dy in moves:
-        nx, ny = x + dx, y + dy
-        if 0 <= nx < 3 and 0 <= ny < 3:
-            possible_moves.append((nx, ny))
-    if not possible_moves:
-        return None  # Không có nước đi hợp lệ
-    nx, ny = random.choice(possible_moves) # Chọn ngẫu nhiên
-    new_board = [row[:] for row in board]
-    new_board[x][y], new_board[nx][ny] = new_board[nx][ny], new_board[x][y]
-    return new_board
+    # Chọn một vị trí ngẫu nhiên trong các nước đi hợp lệ
+    nx, ny = random.choice(possibleMoves)
+    
+    # Tạo trạng thái mới
+    newState = [row[:] for row in board]  # Sao chép bảng
+    # Hoán đổi vị trí ô trống với ô ở tọa độ mới
+    newState[zeroX][zeroY], newState[nx][ny] = newState[nx][ny], newState[zeroX][zeroY]
+    return newState  # Trả về trạng thái mới
 
-def generate_and_test(start, goal, max_iterations=10000):
-    """Tìm kiếm lời giải bằng thuật toán Generate and Test."""
-    current = start
-    for _ in range(max_iterations):
+# Hàm tìm kiếm lời giải
+def generateAndTest(start, goal, maxIterations=10000):
+    # Bắt đầu từ trạng thái ban đầu
+    current = start  
+
+    # Thử tối đa maxIterations lần
+    for _ in range(maxIterations):
+        # Kiểm tra xem có phải trạng thái đích chưa, đúng thì trả về trạng thái đó
         if current == goal:
-            return [current]  # Trả về đường đi (chỉ có trạng thái cuối)
-        current = get_random_neighbor(current)
+            return [current]
+        
+        # Sinh trạng thái mới từ trạng thái hiện tại
+        current = getRandomNeighbor(current)
+        
+        # Nếu không thể sinh trạng thái mới, dừng lại
         if current is None:
-            return None # Không có trạng thái tiếp theo
-    return None  # Không tìm thấy giải pháp sau số lần thử tối đa
+            return None
+    
+    # Sau maxIterations mà không tìm thấy trạng thái đích, trả về None
+    return None

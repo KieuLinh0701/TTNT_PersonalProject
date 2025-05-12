@@ -1,83 +1,92 @@
 import heapq
 
 # Tính toán độ khó của trạng thái (heuristic) dựa trên khoảng cách Manhattan
-def manhattan_distance(state, goal_state):
+# Hàm này tính tổng khoảng cách Manhattan giữa các ô trong trạng thái hiện tại và vị trí của chúng trong trạng thái đích, chỉ dựa trên phần trạng thái quan sát được.
+def manhattanDistance(state, goal, observedState):
     distance = 0
-    for i in range(3):
-        for j in range(3):
-            if state[i][j] != 0:
-                # Tìm vị trí của giá trị trong goal_state
+    for i in range(3):  
+        for j in range(3):  
+            if observedState[i][j] != 0:  # Nếu ô này có thể quan sát
+                # Tìm vị trí của giá trị này trong trạng thái đích (goal)
                 for gi in range(3):
                     for gj in range(3):
-                        if goal_state[gi][gj] == state[i][j]:
-                            goal_i, goal_j = gi, gj
+                        if goal[gi][gj] == state[i][j]:
+                            goalI, goalJ = gi, gj
                             break
-                distance += abs(i - goal_i) + abs(j - goal_j)
+                # Tính khoảng cách Manhattan giữa vị trí hiện tại và vị trí mục tiêu
+                distance += abs(i - goalI) + abs(j - goalJ)
     return distance
 
-# Hàm sinh các trạng thái kế tiếp từ trạng thái hiện tại
-def get_neighbors(state):
-    actions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Di chuyển lên, xuống, trái, phải
-    empty_row, empty_col = find_empty_tile(state)
+# Sinh các trạng thái kế tiếp từ trạng thái hiện tại
+def getNeighbors(state):
+    # Hướng di chuyển của ô trống
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    # Tìm vị trí của ô giá trị 0
+    emptyRow, emptyCol = findEmptyTile(state)
     neighbors = []
     
-    for action in actions:
-        new_row, new_col = empty_row + action[0], empty_col + action[1]
-        if 0 <= new_row < 3 and 0 <= new_col < 3:
-            new_state = [row[:] for row in state]  # Tạo bản sao của state
-            new_state[empty_row][empty_col], new_state[new_row][new_col] = new_state[new_row][new_col], new_state[empty_row][empty_col]
-            neighbors.append(new_state)
+    # Duyệt theo các hướng di chuyển có thể có của ô giá trị 0
+    for action in directions:
+        newRow = emptyRow + action[0]
+        newCol = emptyCol + action[1]
+
+        # Kiểm tra xem ô mới có nằm trong ma trận không
+        if 0 <= newRow < 3 and 0 <= newCol < 3:
+            # Tạo trạng thái mới
+            newState = [row[:] for row in state]  
+            # Hoán đổi vị trí ô trống với ô ở tọa độ mới
+            newState[emptyRow][emptyCol], newState[newRow][newCol] = newState[newRow][newCol], newState[emptyRow][emptyCol]
+            neighbors.append(newState)  # Thêm trạng thái mới vào danh sách
     return neighbors
 
-# Tìm vị trí của ô trống (0)
-def find_empty_tile(state):
+# Tìm vị trí của ô giá trị 0
+def findEmptyTile(state):
     for row in range(3):
         for col in range(3):
             if state[row][col] == 0:
                 return row, col
     return None
 
-# A* Search với partial observation
-def searchWithPartialObservation(start_state, goal_state):
-    open_list = []
-    closed_list = set()
+# Hàm tạo trạng thái quan sát một phần (Chỉ quan sát hàng đầu tiên của trạng thái hiện tại, các ô còn lại được ẩn đi (gán giá trị 0))
+def partialObservation(state):
+    observedState = [[0]*3 for _ in range(3)]  # Tạo ma trận 3x3 toàn giá trị 0
+    for col in range(3):  # Sao chép hàng đầu tiên từ trạng thái gốc
+        observedState[0][col] = state[0][col]
+    return observedState
+
+# Tìm kiếm A* với việc chỉ quan sát một phần trạng thái
+def searchWithPartialObservation(start, goal):
+    openList = [] # Hàng đợi ưu tiên (priority queue) để lưu trữ các trạng thái dựa trên chi phí f(n) = g(n) + h(n)
+    closedList = set() # Danh sách các trạng thái đã duyệt qua
+    observedStart = partialObservation(start) # Quan sát một phần trạng thái ban đầu
     
-    # Dùng heap (priority queue) để giữ trạng thái theo chi phí
-    heapq.heappush(open_list, (0 + manhattan_distance(start_state, goal_state), 0, start_state, []))
+    # Thêm trạng thái bắt đầu vào hàng đợi ưu tiên với chi phí ban đầu
+    heapq.heappush(openList, (0 + manhattanDistance(start, goal, observedStart), 0, start, []))
     
-    while open_list:
-        _, cost, current_state, path = heapq.heappop(open_list)
+    while openList:
+        # Lấy trạng thái có chi phí thấp nhất từ hàng đợi
+        _, cost, current, path = heapq.heappop(openList)
         
-        # Nếu trạng thái đã được thăm, bỏ qua
-        if tuple(map(tuple, current_state)) in closed_list:
+        # Bỏ qua nếu trạng thái đã được duyệt
+        if tuple(map(tuple, current)) in closedList:
             continue
-        closed_list.add(tuple(map(tuple, current_state)))
+        # Đánh dấu trạng thái hiện tại là đã duyệt
+        closedList.add(tuple(map(tuple, current)))
         
-        # Kiểm tra xem đã đạt được trạng thái mục tiêu chưa
-        if current_state == goal_state:
-            return path
+        # Quan sát phần trạng thái hiện tại
+        observedCurrent = partialObservation(current)
         
-        # Sinh các trạng thái kế tiếp và tính toán chi phí
-        for neighbor in get_neighbors(current_state):
-            if tuple(map(tuple, neighbor)) not in closed_list:
-                new_cost = cost + 1  # Giả sử mỗi bước có chi phí bằng 1
-                new_heuristic = manhattan_distance(neighbor, goal_state)
-                heapq.heappush(open_list, (new_cost + new_heuristic, new_cost, neighbor, path + [neighbor]))
+        # Nếu trạng thái hiện tại là trạng thái đích, trả về đường đi
+        if current == goal:
+            return path  
+        
+        # Sinh các trạng thái kế tiếp
+        for neighbor in getNeighbors(current):
+            if tuple(map(tuple, neighbor)) not in closedList:  # Nếu trạng thái chưa được duyệt
+                newCost = cost + 1  # Tính chi phí thực tế g(n)
+                newHeuristic = manhattanDistance(neighbor, goal, observedCurrent)  # Tính heuristic h(n)
+                # Thêm trạng thái vào hàng đợi với chi phí f(n) = g(n) + h(n)
+                heapq.heappush(openList, (newCost + newHeuristic, newCost, neighbor, path + [neighbor]))
     
-    return None  # Không tìm thấy giải pháp
-
-# Ví dụ sử dụng
-start_state = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]  # Trạng thái bắt đầu
-goal_state = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]  # Trạng thái mục tiêu
-
-solution_path = searchWithPartialObservation(start_state, goal_state)
-
-# Hiển thị kết quả
-if solution_path:
-    print("Tìm thấy giải pháp:")
-    for i, state in enumerate(solution_path):
-        print(f"Bước {i + 1}:")
-        for row in state:
-            print(row)
-else:
-    print("Không tìm thấy giải pháp.")
+    # Không tìm thấy đường đi, trả về None
+    return None

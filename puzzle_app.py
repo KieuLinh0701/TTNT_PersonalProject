@@ -7,7 +7,7 @@ from PyQt6 import QtWidgets, uic
 
 from CheckSolvable import isSolvable
 
-# import thư viện thuật toán
+# import các thuật toán
 from algorithms.BFS import bfs
 from algorithms.DFS import dfs
 from algorithms.UCS import ucs
@@ -23,7 +23,7 @@ from algorithms.BeamSearch import beamSearch
 from algorithms.GeneticAlgorithm import geneticAlgorithm
 from algorithms.AndOrSearch import AndOrSearch
 from algorithms.SearchWithPartialObservation import searchWithPartialObservation
-from algorithms.GenerateAndTest import generate_and_test
+from algorithms.GenerateAndTest import generateAndTest
 from algorithms.BackTracking import backtracking
 from algorithms.BacktrackingWithForwardChecking import backtrackingWithForwardChecking
 from algorithms.QLearning import qLearning
@@ -95,7 +95,7 @@ class PuzzleApp(QtWidgets.QMainWindow):
             self.btnGenetic:geneticAlgorithm, 
             self.btnAndOr:AndOrSearch,
             self.btnComponent:searchWithPartialObservation,
-            self.btnGenerateTest:generate_and_test,
+            self.btnGenerateTest:generateAndTest,
             self.btnBackTracking:backtracking,
             self.btnBacktrackingWithForwardChecking: backtrackingWithForwardChecking,
             self.btnQLearning: qLearning
