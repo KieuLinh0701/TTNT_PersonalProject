@@ -26,6 +26,6 @@
 
 #### 2.1.2. Hình ảnh gif của từng thuật toán khi áp dụng lên trò chơi 
 
-| ![GIF 1](gif/bfs.gif) | ![GIF 2](gif/dfs.gif) | ![GIF 3](gif/ucs.gif) | ![GIF 4](images/ids.gif) |
+| ![GIF 1](gif/bfs.gif) | ![GIF 2](gif/dfs.gif) | ![GIF 3](gif/ucs.gif) | ![GIF 4](gif/ids.gif) |
 |----------------------------|----------------------------|----------------------------|----------------------------|
 | **Thuật toán BFS**                  | **Thuật toán DFS**                  | **Thuật toán UCS**                  | **Thuật toán IDS**                  |
