@@ -80,5 +80,5 @@
 |-------|-------|-------|-------|-------|-------|
 | Greedy Search | Không | Không | $O(b^m)$ | $O(b^m)$ | Chạy nhanh với heuristic tốt nhưng không đảm bảo tìm lời giải tối ưu |
 | A* | Có | Có | $O(b^d)$ | $O(b^d)$ | Tìm lời giải tối ưu nhưng tiêu tốn nhiều bộ nhớ |
-| IDA* | Có | Có | \( O(b^d) \times k \) | $O(d)$ | Tối ưu về không gian nhưng thời gian có thể lớn hơn A* |
+| IDA* | Có | Có | $k \cdot O(b^d)$ | $O(d)$ | Tối ưu về không gian nhưng thời gian có thể lớn hơn A* |
 
