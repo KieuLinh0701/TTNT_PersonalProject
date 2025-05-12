@@ -1689,7 +1689,7 @@ font-size: 18px;
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>680</y>
+      <y>690</y>
       <width>219</width>
       <height>50</height>
      </rect>
@@ -2161,6 +2161,55 @@ QPushButton:checked {
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="btnReset">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>760</y>
+      <width>219</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    font-family: &quot;Times New Roman&quot;;
+    font-weight: bold;
+    font-size: 18px;
+
+   background-color: #dcf5b8; /* Màu nền vàng sáng */
+    color: black;              /* Màu chữ */
+    border-radius: 12px;       /* Bo góc */
+    padding: 5px;              /* Khoảng cách bên trong */
+}
+
+QPushButton:hover {
+    background-color: #e5e6e7; /* Màu khi hover */
+	color: black;
+}
+
+QPushButton:pressed {
+    background-color: #575757; /* Màu khi bấm */
+	color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string>Reset</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

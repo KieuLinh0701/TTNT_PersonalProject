@@ -35,18 +35,18 @@ class PuzzleApp(QtWidgets.QMainWindow):
         # Đặt kích thước cố định từ thiết kế
         self.setFixedSize(self.width(), self.height())
 
-        #self.startState = [[2, 6, 5], [0, 8, 7], [4, 3, 1]]
-        #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+        self.startState = [[2, 6, 5], [0, 8, 7], [4, 3, 1]]
+        self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
         
-        self.goalState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
+        #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 
-        self.startState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+        #self.startState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 
         # Trạng thái test and or seach
-        """ self.startState = [
+        """self.startState = [
             [1, 2, 3],
-            [4, 0, 6],
-            [7, 5, 8]
+            [4, 0, 5],
+            [7, 8, 6]
         ]
         self.goalState = [
             [1, 2, 3],
@@ -106,6 +106,7 @@ class PuzzleApp(QtWidgets.QMainWindow):
 
         # Kết nối nút btnProcess
         self.btnProcess.clicked.connect(self.showSteps)
+        self.btnReset.clicked.connect(self.resetTimeStep)
 
     def updateLabels(self, labels, state, rows=None):
         if rows is None:
@@ -123,13 +124,17 @@ class PuzzleApp(QtWidgets.QMainWindow):
                 if labels[i][j]:  # Nếu QLabel tồn tại
                     labels[i][j].setText("" if val == 0 else str(val))
 
-    def reset(self, selectedButton):
+    def resetTimeStep(self):
         # Reset giao diện về trạng thái ban đầu.\
         self.updateLabels(self.grid_labels, self.startState)
 
         # Reset giá trị thời gian và số bước
         self.lblTime.setText("0.00 s")  # Reset thời gian về giá trị mặc định
         self.lblSteps.setText("0")     # Reset bước về giá trị mặc định
+
+    def reset(self, selectedButton):
+
+        self.resetTimeStep()
 
         # Reset màu của tất cả các nút, trừ nút được chọn
         for btn in self.buttons.keys():
