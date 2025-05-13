@@ -157,3 +157,10 @@
 | ![GIF 1](gif/q_learning.gif) |
 |----------------------------|
 | **Thuật toán Q - Learning**                  | 
+
+## 3. Kết luận
+Qua quá trình thực hiện dự án, nhóm đã đạt được các kết quả sau:
+- Hiểu rõ các thuật toán tìm kiếm và triển khai được, thể hiện hiệu quả trên trò chơi 8 ô chữ.
+- Đã so sánh các thuật toán dựa trên số lượng trạng thái mở, thời gian chạy mỗi thuật toán, từ đó đưa ra lựa chọn tối ưu cho từng tình huống.
+- Sử dụng GIF minh họa giúp dễ dàng theo dõi và phân tích các thuật toán.
+- Dự án nâng cao kỹ năng lập trình và khả năng áp dụng thuật toán vào thực tiễn, giúp nhóm hiểu sâu về trí tuệ nhân tạo và các nguyên lý cơ bản, mở ra cơ hội cho các dự án tương lai.
