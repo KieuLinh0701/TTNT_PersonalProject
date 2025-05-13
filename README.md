@@ -144,3 +144,16 @@
 |-------|-------|-------|-------|-------|-------|
 | Backtracking | Có (nếu không gian trạng thái hữu hạn) | Không | $O(b^m)$ | $O(m)$ | Phù hợp với các bài toán có nhiều cách giải, trả về một kế hoạch hợp lệ thay vì tối ưu. Dễ gặp trạng thái lặp hoặc bế tắc. |
 | Backtracking With Forward Checking | Có (nếu hàm kiểm tra trước loại trừ được trạng thái không hợp lệ) | Không (trừ khi tích hợp heuristic tốt) | $O(b^m)$ |  $O(b \cdot m)$ | Giảm số lượng trạng thái cần duyệt nhờ kiểm tra trước. Phù hợp hơn với bài toán có ràng buộc mạnh. |
+
+### 2.6. Các thuật toán Tìm kiếm học tăng cường
+#### 2.6.1 Thành phần chính của bài toán tìm kiếm
+    -	Trạng thái khởi đầu (Start State): Trạng thái ban đầu từ đó bắt đầu tìm kiếm.
+    -	Trạng thái đích (Goal State): Trạng thái cần đạt được để giải bài toán.
+    -	Không gian trạng thái (State Space): Tập hợp tất cả các trạng thái có thể xảy ra trong quá trình tìm kiếm, bao gồm các trạng thái được sinh ra từ các hành động hợp lệ và các trạng thái trung gian.
+    -	Hàm heuristic: Trong thuật toán Q-Learning, giá trị Q (Q-value) đóng vai trò định hướng lựa chọn hành động tốt nhất. Giá trị Q được cập nhật dựa trên phần thưởng nhận được và giá trị Q của trạng thái kế tiếp.
+    -	Đường đi (Path): Chuỗi các trạng thái từ trạng thái khởi đầu đến trạng thái đích, được tái tạo dựa trên Q-table sau khi thuật toán học xong.
+#### 2.6.2. Hình ảnh gif của từng thuật toán khi áp dụng lên trò chơi 
+
+| ![GIF 1](gif/q_learning.gif) |
+|----------------------------|
+| **Thuật toán Q - Learning**                  | 
