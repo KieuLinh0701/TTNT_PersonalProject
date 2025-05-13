@@ -38,12 +38,12 @@ class PuzzleApp(QtWidgets.QMainWindow):
         #self.startState = [[2, 6, 5], [0, 8, 7], [4, 3, 1]]
         #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
         
-        #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
+        self.goalState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 
-        #self.startState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+        self.startState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 
         # Trạng thái test and or seach
-        self.startState = [
+        '''self.startState = [
             [1, 2, 3],
             [4, 0, 5],
             [7, 8, 6]
@@ -52,7 +52,7 @@ class PuzzleApp(QtWidgets.QMainWindow):
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 0]
-        ]
+        ]'''
         
         self.currentAlgorithm = None  # Thuật toán hiện tại (ban đầu là None)
 
