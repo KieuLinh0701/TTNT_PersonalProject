@@ -119,9 +119,28 @@
 | ![GIF 1](gif/and_or.gif) | ![GIF 2](gif/partial.gif) |
 |----------------------------|----------------------------|
 | **Thuật toán And-Or Search**                  | **Thuật toán Partial Observation**                  |
-#### 2.3.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
+#### 2.4.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
 
 | Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
 |-------|-------|-------|-------|-------|-------|
 | And-Or Search | Có (nếu không gian trạng thái hữu hạn và không có nút bế tắc) | Không | $O(b^m)$ | $O(b \cdot m)$ | Phù hợp với các bài toán có nhiều cách giải, trả về một kế hoạch hợp lệ thay vì đường đi tối ưu. Dễ gặp vấn đề với các trạng thái lặp hoặc bế tắc. |
 | Partial Observation | Có (nếu hàm heuristic tốt và trạng thái quan sát đủ chính xác) | Có (với heuristic tốt) | $O(b^d)$ (trong trường hợp tốt) | $O(b^d)$ | Giải quyết tốt bài toán với thông tin không đầy đủ, nhưng độ chính xác phụ thuộc vào hàm heuristic và chiến lược quan sát một phần trạng thái. |
+
+### 2.5. Các thuật toán Tìm kiếm thỏa mãn ràng buộc
+#### 2.5.1 Thành phần chính của bài toán tìm kiếm
+    -	Trạng thái khởi đầu (Start State): Trạng thái ban đầu từ đó bắt đầu tìm kiếm.
+    -	Trạng thái đích (Goal State): Trạng thái cần đạt được để giải bài toán.
+    -	Không gian trạng thái (State Space): Tập hợp tất cả các trạng thái có thể xảy ra trong quá trình tìm kiếm. Bao gồm các trạng thái được sinh ra từ các di chuyển hợp lệ và kiểm tra tính nhất quán.
+    -	Hàm heuristic: Hàm đánh giá mức độ "tốt" của một trạng thái để định hướng lựa chọn trạng thái tiếp theo. Với Backtracking, hàm heuristic thường đơn giản hoặc không dùng; với Forward Checking, hàm này có thể dựa trên số lượng ràng buộc thỏa mãn hoặc số ô đã được đặt đúng.
+    -	Đường đi (Path): Chuỗi các trạng thái từ trạng thái khởi đầu đến trạng thái đích.
+#### 2.5.2. Hình ảnh gif của từng thuật toán khi áp dụng lên trò chơi 
+
+| ![GIF 1](gif/backtracking.gif) | ![GIF 2](gif/backtracking_fc.gif) |
+|----------------------------|----------------------------|
+| **Thuật toán Backtracking**                  | **Thuật toán Backtracking With Forward Checking**                  |
+#### 2.5.3. Nhận xét về hiệu suất của các thuật toán khi áp dụng lên trò chơi 8 ô chữ  
+
+| Thuật toán | Tính đầy đủ | Tối ưu | Thời gian | Không gian	 | Nhận xét |
+|-------|-------|-------|-------|-------|-------|
+| Backtracking | Có (nếu không gian trạng thái hữu hạn) | Không | $O(b^m)$ | $O(m)$ | Phù hợp với các bài toán có nhiều cách giải, trả về một kế hoạch hợp lệ thay vì tối ưu. Dễ gặp trạng thái lặp hoặc bế tắc. |
+| Backtracking With Forward Checking | Có (nếu hàm kiểm tra trước loại trừ được trạng thái không hợp lệ) | Không (trừ khi tích hợp heuristic tốt) | $O(b^m)$ |  $O(b \cdot m)$ | Giảm số lượng trạng thái cần duyệt nhờ kiểm tra trước. Phù hợp hơn với bài toán có ràng buộc mạnh. |
