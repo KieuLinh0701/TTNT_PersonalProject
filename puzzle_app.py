@@ -38,9 +38,9 @@ class PuzzleApp(QtWidgets.QMainWindow):
         #self.startState = [[2, 6, 5], [0, 8, 7], [4, 3, 1]]
         #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
         
-        #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
+        # self.startState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 
-        #self.startState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+        # self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 
         # Trạng thái test and or seach
         self.startState = [
@@ -191,20 +191,20 @@ class PuzzleApp(QtWidgets.QMainWindow):
             # Xác định hướng di chuyển
             direction = None
             if zero_pos_curr[0] < zero_pos_prev[0]:  # Di chuyển lên
-                direction = "Down"
-            elif zero_pos_curr[0] > zero_pos_prev[0]:  # Di chuyển xuống
                 direction = "Up"
+            elif zero_pos_curr[0] > zero_pos_prev[0]:  # Di chuyển xuống
+                direction = "Down"
             elif zero_pos_curr[1] < zero_pos_prev[1]:  # Di chuyển trái
-                direction = "Right"
-            elif zero_pos_curr[1] > zero_pos_prev[1]:  # Di chuyển phải
                 direction = "Left"
+            elif zero_pos_curr[1] > zero_pos_prev[1]:  # Di chuyển phải
+                direction = "Right"
 
             # Ghi lại số và hướng di chuyển
             if direction:
                 # Lấy số tại vị trí di chuyển trong trạng thái trước
                 moved_number = prev_state[zero_pos_curr[0]][zero_pos_curr[1]]
                 directions.append(direction)
-                number_changes.append(f"{moved_number} moves {direction}")
+                number_changes.append(f"zero tile moves {direction}")
 
         if not number_changes:
             QtWidgets.QMessageBox.warning(self, "Warning", "No valid steps detected!")

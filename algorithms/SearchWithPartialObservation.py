@@ -13,6 +13,9 @@ def manhattanDistance(state, goal, observedState):
                         if goal[gi][gj] == state[i][j]:
                             goalI, goalJ = gi, gj
                             break
+                    else:
+                        continue
+                    break
                 # Tính khoảng cách Manhattan giữa vị trí hiện tại và vị trí mục tiêu
                 distance += abs(i - goalI) + abs(j - goalJ)
     return distance
@@ -84,7 +87,8 @@ def searchWithPartialObservation(start, goal):
         for neighbor in getNeighbors(current):
             if tuple(map(tuple, neighbor)) not in closedList:  # Nếu trạng thái chưa được duyệt
                 newCost = cost + 1  # Tính chi phí thực tế g(n)
-                newHeuristic = manhattanDistance(neighbor, goal, observedCurrent)  # Tính heuristic h(n)
+                observedNeighbor = partialObservation(neighbor)  # Quan sát trạng thái kế tiếp
+                newHeuristic = manhattanDistance(neighbor, goal, observedNeighbor)  # Tính heuristic h(n)
                 # Thêm trạng thái vào hàng đợi với chi phí f(n) = g(n) + h(n)
                 heapq.heappush(openList, (newCost + newHeuristic, newCost, neighbor, path + [neighbor]))
     

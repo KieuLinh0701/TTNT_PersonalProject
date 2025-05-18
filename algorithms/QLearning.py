@@ -1,5 +1,4 @@
 import random
-import copy
 
 def qLearning(start, goal, episodes=1000):
     # Hướng di chuyển của ô trống
