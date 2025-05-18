@@ -1539,7 +1539,7 @@ font-size: 24px;
      <rect>
       <x>490</x>
       <y>480</y>
-      <width>221</width>
+      <width>231</width>
       <height>161</height>
      </rect>
     </property>
@@ -1569,9 +1569,9 @@ font-size: 24px;
     <widget class="QLabel" name="lblTime">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>80</x>
        <y>60</y>
-       <width>81</width>
+       <width>121</width>
        <height>21</height>
       </rect>
      </property>
@@ -1628,9 +1628,9 @@ font-size: 18px;
     <widget class="QLabel" name="lblSteps">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>90</x>
        <y>110</y>
-       <width>51</width>
+       <width>111</width>
        <height>21</height>
       </rect>
      </property>
@@ -1690,7 +1690,7 @@ font-size: 18px;
      <rect>
       <x>490</x>
       <y>690</y>
-      <width>219</width>
+      <width>231</width>
       <height>50</height>
      </rect>
     </property>
@@ -2167,7 +2167,7 @@ QPushButton:checked {
      <rect>
       <x>490</x>
       <y>760</y>
-      <width>219</width>
+      <width>231</width>
       <height>50</height>
      </rect>
     </property>

@@ -3,6 +3,7 @@ import os
 os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "0"
 sys.setrecursionlimit(2000)
 import time
+from time import perf_counter
 from PyQt6 import QtWidgets, uic
 
 from CheckSolvable import isSolvable
@@ -38,12 +39,12 @@ class PuzzleApp(QtWidgets.QMainWindow):
         #self.startState = [[2, 6, 5], [0, 8, 7], [4, 3, 1]]
         #self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
         
-        # self.startState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
+        self.startState = [[1, 2, 3], [4, 5, 6], [7, 0, 8]]
 
-        # self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+        self.goalState = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 
         # Trạng thái test and or seach
-        self.startState = [
+        """self.startState = [
             [1, 2, 3],
             [4, 0, 5],
             [7, 8, 6]
@@ -52,7 +53,7 @@ class PuzzleApp(QtWidgets.QMainWindow):
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 0]
-        ]
+        ]"""
         
         self.currentAlgorithm = None  # Thuật toán hiện tại (ban đầu là None)
 
@@ -273,21 +274,21 @@ class PuzzleApp(QtWidgets.QMainWindow):
     """)
 
         if isSolvable(self.startState):
+            start_time = perf_counter()  # Bắt đầu tính thời gian
             solution = algorithm(self.startState, self.goalState)
+            end_time = perf_counter()  # Kết thúc tính thời gian
+
+            execution_time = end_time - start_time  # Tính thời gian thực thi
 
             if solution:
                 self.solutionSteps = [self.startState] + list(solution)  # Lưu tất cả trạng thái
-
-                start_time = time.time()  # Bắt đầu tính thời gian
 
                 for step in self.solutionSteps:
                     self.updateLabels(self.grid_labels, step)
                     QtWidgets.QApplication.processEvents()
                     time.sleep(0.3)
-
-                end_time = time.time()  # Kết thúc tính thời gian
                 
-                self.lblTime.setText(f"{end_time - start_time:.2f} s")  # Hiển thị thời gian
+                self.lblTime.setText(f"{execution_time:.7f} s")  # Hiển thị thời gian chính xác hơn
                 self.lblSteps.setText(str(len(solution)))  # Số bước là số lần di chuyển
             else:
                 self.lblTime.setText("N/A")
