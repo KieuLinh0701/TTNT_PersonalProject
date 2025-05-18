@@ -32,9 +32,6 @@
         Backtracking With Forward Checking
     - Reinforcement Learning: 
         Q-Learning
-        Deep Q Network (DQN)
-        SARSA (State-Action-Reward-State-Action)
-        Policy-Gradient
 
 ## 2. Nội dung
 ### 2.1. Các thuật toán Tìm kiếm không có thông tin
