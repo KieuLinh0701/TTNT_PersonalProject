@@ -2,8 +2,11 @@
 
 ## Sinh viên thực hiện:
 **Họ tên:** Uý Nữ Kiều Linh
+
 **Mssv:** 21110896
+
 **Khoa:** Công nghệ thông tin
+
 **Trường:** Đại học Sư phạm Kỹ thuật Thành phố Hồ Chí Minh
  
 ## 1.	Mục tiêu:
